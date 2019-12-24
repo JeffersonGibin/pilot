@@ -573,6 +573,7 @@ class TransactionDetails extends Component {
                     getOutAmount([
                       payment.refund_amount,
                       payment.mdr_amount,
+                      payment.fraud_coverage_amount,
                     ])
                   }
                   amountSize="large"
@@ -600,7 +601,11 @@ class TransactionDetails extends Component {
               <CardContent className={style.content}>
                 <TotalDisplay
                   align="start"
-                  amount={(payment.net_amount + payment.cost_amount)}
+                  amount={(
+                    payment.net_amount
+                    + payment.cost_amount
+                    - payment.fraud_coverage_amount
+                  )}
                   amountSize="large"
                   color="#4d4f62"
                   subtitle={(

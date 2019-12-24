@@ -626,9 +626,17 @@ class TransactionDetails extends Component {
       cost: t('models.payment.cost', {
         value: currencyFormatter(payment.cost_amount || 0),
       }),
-      mdr: t('models.payment.mdr', {
-        value: currencyFormatter(payment.mdr_amount || 0),
-      }),
+      mdr: payment.fraud_coverage_amount > 0
+        ? t('models.payment.mdr_with_fraud_coverage', {
+          value: currencyFormatter(
+            payment.mdr_amount + payment.fraud_coverage_amount || 0
+          ),
+        })
+        : t('models.payment.mdr', {
+          value: currencyFormatter(
+            payment.mdr_amount || 0
+          ),
+        }),
       net_amount: t('pages.transaction.net_amount'),
       out_amount: t('pages.transaction.out_amount'),
       paid_amount: t('pages.transaction.paid_amount'),

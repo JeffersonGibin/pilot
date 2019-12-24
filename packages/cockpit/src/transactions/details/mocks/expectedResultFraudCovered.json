@@ -459,8 +459,8 @@
             "amount": -32839076,
             "costs": {
               "anticipation": 0,
-              "mdr": -3283901,
-              "taxes": 0
+              "taxes": 0,
+              "mdr": -3283901
             },
             "created_at": "2018-03-14T13:40:28.944Z",
             "net_amount": -29555175,

@@ -1297,7 +1297,7 @@
     "date_created": "2018-03-14T13:40:28.465Z",
     "date_updated": "2018-03-14T16:11:52.057Z",
     "device": null,
-    "fraud_covered": false,
+    "fraud_covered": true,
     "id": 3082517,
     "installments": 12,
     "ip": "179.191.110.178",

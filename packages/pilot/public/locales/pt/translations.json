@@ -505,6 +505,7 @@
       "anticipation": "SERVIÇO DE ANTECIPAÇÃO",
       "chargeback_refund": "ESTORNO OU CHARGEBACK",
       "mdr": "MDR",
+      "mdr_with_fraud_coverage": "MDR + COBERTURA DE FRAUDES",
       "net_amount": "VALOR LÍQUIDO",
       "number": "PARCELA",
       "payment_date": "DATA",
@@ -546,6 +547,7 @@
     },
     "payment": {
       "mdr": "MDR: R$ {{value}}",
+      "mdr_with_fraud_coverage": "MDR + Cobertura de Fraudes: R$ {{value}}",
       "cost": "Custo de processamento: R$ {{value}}*",
       "refund": "Valor estornado: R$ {{value}}"
     },

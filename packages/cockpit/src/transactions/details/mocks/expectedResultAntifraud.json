@@ -87,6 +87,7 @@
       }
     ],
     "payment": {
+      "fraud_coverage_amount": 0,
       "cost_amount": 70,
       "installments": 1,
       "mdr_amount": 0,

@@ -8,6 +8,7 @@ import {
   both,
   complement,
   contains,
+  dissocPath,
   either,
   equals,
   find,
@@ -300,6 +301,11 @@ const mapRecipients = map(applySpec({
       costs: {
         mdr: prop('fee'),
         anticipation: prop('anticipation_fee'),
+        taxes: pipe(
+          props(['fee', 'fraud_coverage_fee']),
+          values,
+          sum
+        ),
       },
     })),
     groupBy(prop('number')),
@@ -426,6 +432,7 @@ const mapTransactionToResult = applySpec({
       pipe(prop('split_rules'), buildRecipients),
       pipe(prop('chargebackOperations'), buildReasonCode),
       pick(['capabilities']),
+      pick(['payables']),
     ]),
     mergeAll
   ),
@@ -445,6 +452,18 @@ const sumAllRecipientsMdrCost = pipe(
   sum
 )
 
+const fraudCoverageAmountLens = lensPath(['transaction', 'payment', 'fraud_coverage_amount'])
+
+const sumAllRecipientsFraudCoverageFee = pipe(
+  path(['transaction', 'payables']),
+  pluck('fraud_coverage_fee'),
+  sum,
+  when(
+    isNil,
+    always(0)
+  )
+)
+
 const netAmountLens = lensPath(['transaction', 'payment', 'net_amount'])
 
 const subtractMdrFromNetAmount = pipe(
@@ -459,5 +478,8 @@ export default pipe(
   juxt([sumAllRecipientsMdrCost, identity]),
   apply(set(mdrLens)),
   juxt([subtractMdrFromNetAmount, identity]),
-  apply(set(netAmountLens))
+  apply(set(netAmountLens)),
+  juxt([sumAllRecipientsFraudCoverageFee, identity]),
+  apply(set(fraudCoverageAmountLens)),
+  dissocPath(['transaction', 'payables'])
 )
