@@ -306,7 +306,7 @@
             "costs": {
               "anticipation": 0,
               "mdr": -3283909,
-              "taxes": 0
+              "taxes": -3284009
             },
             "created_at": "2018-03-14T13:40:28.948Z",
             "net_amount": -29555175,
@@ -320,7 +320,7 @@
             "costs": {
               "anticipation": 0,
               "mdr": -3283909,
-              "taxes": 0
+              "taxes": -3284009
             },
             "created_at": "2018-03-14T13:40:28.948Z",
             "net_amount": -29555175,
@@ -334,7 +334,7 @@
             "costs": {
               "anticipation": 0,
               "mdr": -3283909,
-              "taxes": 0
+              "taxes": -3284009
             },
             "created_at": "2018-03-14T13:40:28.947Z",
             "net_amount": -29555175,
@@ -348,7 +348,7 @@
             "costs": {
               "anticipation": 0,
               "mdr": -3283909,
-              "taxes": 0
+              "taxes": -3284009
             },
             "created_at": "2018-03-14T13:40:28.947Z",
             "net_amount": -29555175,
@@ -362,7 +362,7 @@
             "costs": {
               "anticipation": 0,
               "mdr": -3283909,
-              "taxes": 0
+              "taxes": -3284009
             },
             "created_at": "2018-03-14T13:40:28.946Z",
             "net_amount": -29555175,
@@ -376,7 +376,7 @@
             "costs": {
               "anticipation": 0,
               "mdr": -3283909,
-              "taxes": 0
+              "taxes": -3284009
             },
             "created_at": "2018-03-14T13:40:28.946Z",
             "net_amount": -29555175,
@@ -390,7 +390,7 @@
             "costs": {
               "anticipation": 0,
               "mdr": -3283909,
-              "taxes": 0
+              "taxes": -3284009
             },
             "created_at": "2018-03-14T13:40:28.946Z",
             "net_amount": -29555175,
@@ -404,7 +404,7 @@
             "costs": {
               "anticipation": 0,
               "mdr": -3283909,
-              "taxes": 0
+              "taxes": -3284009
             },
             "created_at": "2018-03-14T13:40:28.945Z",
             "net_amount": -29555175,
@@ -418,7 +418,7 @@
             "costs": {
               "anticipation": 0,
               "mdr": -3283909,
-              "taxes": 0
+              "taxes": -3284009
             },
             "created_at": "2018-03-14T13:40:28.945Z",
             "net_amount": -29555175,
@@ -432,7 +432,7 @@
             "costs": {
               "anticipation": 0,
               "mdr": -3283909,
-              "taxes": 0
+              "taxes": -3284009
             },
             "created_at": "2018-03-14T13:40:28.945Z",
             "net_amount": -29555175,
@@ -446,7 +446,7 @@
             "costs": {
               "anticipation": 0,
               "mdr": -3283909,
-              "taxes": 0
+              "taxes": -3284009
             },
             "created_at": "2018-03-14T13:40:28.944Z",
             "net_amount": -29555175,
@@ -459,8 +459,8 @@
             "amount": -32839076,
             "costs": {
               "anticipation": 0,
-              "taxes": 0,
-              "mdr": -3283901
+              "mdr": -3283901,
+              "taxes": -3284001
             },
             "created_at": "2018-03-14T13:40:28.944Z",
             "net_amount": -29555175,

@@ -109,7 +109,7 @@ const totalDisplayLabels = {
     ? `MDR + Cobertura de Fraudes: R$ ${
       currencyFormatter(
         transactionMock.payment.fraud_coverage_amount
-        + transactionMock.payment.cost_amount || 0
+        + transactionMock.payment.cost_amount
       )
     }`
     : `MDR: R$ ${

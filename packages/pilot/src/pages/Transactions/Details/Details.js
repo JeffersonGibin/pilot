@@ -629,7 +629,7 @@ class TransactionDetails extends Component {
       mdr: payment.fraud_coverage_amount > 0
         ? t('models.payment.mdr_with_fraud_coverage', {
           value: currencyFormatter(
-            payment.mdr_amount + payment.fraud_coverage_amount || 0
+            payment.mdr_amount + payment.fraud_coverage_amount
           ),
         })
         : t('models.payment.mdr', {

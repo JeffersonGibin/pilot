@@ -246,6 +246,7 @@ const mergeInstallment = (key, left, right) => {
     case 'amount':
     case 'net_amount':
     case 'mdr':
+    case 'taxes':
     case 'anticipation':
       return left + right
     default:
@@ -303,7 +304,6 @@ const mapRecipients = map(applySpec({
         anticipation: prop('anticipation_fee'),
         taxes: pipe(
           props(['fee', 'fraud_coverage_fee']),
-          values,
           sum
         ),
       },
@@ -457,11 +457,7 @@ const fraudCoverageAmountLens = lensPath(['transaction', 'payment', 'fraud_cover
 const sumAllRecipientsFraudCoverageFee = pipe(
   path(['transaction', 'payables']),
   pluck('fraud_coverage_fee'),
-  sum,
-  when(
-    isNil,
-    always(0)
-  )
+  sum
 )
 
 const netAmountLens = lensPath(['transaction', 'payment', 'net_amount'])
