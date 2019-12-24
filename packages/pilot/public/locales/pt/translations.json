@@ -510,7 +510,8 @@
       "number": "PARCELA",
       "payment_date": "DATA",
       "status": "STATUS DA PARCELA",
-      "total": "TOTAL BRUTO"
+      "total": "TOTAL BRUTO",
+      "tax": "TAXAS"
     },
     "operations": {
       "anticipation": "Antecipação",

@@ -133,13 +133,13 @@ const columns = [
     title: 'models.installment.total',
   },
   {
-    accessor: ['costs', 'mdr'],
+    accessor: ['costs', 'taxes'],
     aggregationRenderer: currencyFormatter,
     aggregator: sumParameters,
     align: 'end',
     orderable: false,
-    renderer: ({ costs }) => currencyFormatter(costs.mdr),
-    title: 'models.installment.mdr',
+    renderer: ({ costs }) => currencyFormatter(costs.taxes),
+    title: 'models.installment.tax',
   },
   {
     accessor: ['costs', 'anticipation'],
