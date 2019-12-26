@@ -150,6 +150,7 @@ const companyEpic = (action$, state$) => action$.pipe(
       id,
       name,
       status,
+      type,
     } = payload
 
     const {
@@ -165,6 +166,7 @@ const companyEpic = (action$, state$) => action$.pipe(
       name,
       dateCreated,
       status,
+      type,
       userId
     )
 

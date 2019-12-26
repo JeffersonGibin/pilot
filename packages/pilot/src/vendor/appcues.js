@@ -40,6 +40,7 @@ export const identify = (
  * @param {string} companyName company name
  * @param {string} companyDateCreated company created date
  * @param {string} companyStatus company status
+ * @param {string} companyType company type
  * @param {number} userId user id
  *
  */
@@ -48,6 +49,7 @@ export const setCompany = (
   companyName,
   companyDateCreated,
   companyStatus,
+  companyType,
   userId
 ) => {
   if (hasProperty(window.Appcues)) {
@@ -58,6 +60,7 @@ export const setCompany = (
         companyId,
         companyName,
         companyStatus,
+        companyType,
       }
     )
   }
