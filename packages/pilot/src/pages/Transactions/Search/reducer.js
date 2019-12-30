@@ -54,8 +54,21 @@ export default function searchReducer (state, action) {
 
     case SEARCH_CLEAR: {
       return {
-        ...initialState,
         loading: false,
+        query: {
+          count: 15,
+          dates: {
+            end: moment(new Date()).endOf('day'),
+            start: moment(new Date()).subtract(30, 'days').startOf('day'),
+          },
+          filters: {},
+          offset: 1,
+          search: '',
+          sort: {
+            field: ['created_at'],
+            order: 'descending',
+          },
+        },
       }
     }
 
