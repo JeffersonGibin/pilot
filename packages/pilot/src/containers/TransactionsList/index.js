@@ -413,7 +413,7 @@ TransactionsList.propTypes = {
 
 TransactionsList.defaultProps = {
   amount: 0,
-  confirmationDisabled: false,
+  confirmationDisabled: true,
   count: 0,
   data: null,
   order: 'descending',

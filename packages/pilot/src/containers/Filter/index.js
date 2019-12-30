@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 import {
@@ -23,7 +23,6 @@ import {
   anyPass,
   complement,
   either,
-  equals,
   flatten,
   identity,
   ifElse,
@@ -77,155 +76,105 @@ export const stringifyDates = ifElse(
   formatIfDate
 )
 
-class Filters extends Component {
-  constructor (props) {
-    super(props)
+const Filters = ({
+  children,
+  confirmationDisabled,
+  disabled,
+  onChange,
+  onClear,
+  onConfirm,
+  options,
+  query,
+  t,
+}) => {
+  const [collapsed, setCollapsed] = useState(true)
+  const [selectedFilters, setSelectedFilters] = useState({})
+  const [filterQuery, setFilterQuery] = useState(query)
 
-    this.state = {
-      collapsed: true,
-      hasChanged: false,
-      query: props.query,
-    }
+  useEffect(() => {
+    setFilterQuery(query)
+  }, [query])
 
-    this.renderChildrenInput = this.renderChildrenInput.bind(this)
-    this.handleToogeMoreFilters = this.handleToogeMoreFilters.bind(this)
-    this.handleFiltersSubmit = this.handleFiltersSubmit.bind(this)
-    this.handleFiltersChange = this.handleFiltersChange.bind(this)
+  useEffect(() => {
+    const {
+      filters: localFilters,
+    } = filterQuery
+
+    const {
+      filters: urlFilters,
+    } = query
+
+    setSelectedFilters(
+      getFilters(urlFilters, localFilters)
+    )
+  }, [filterQuery, query])
+
+  const handleToogeMoreFilters = () => {
+    setCollapsed(!collapsed)
   }
 
-  componentDidUpdate (prevProps, prevState) {
-    const { query } = this.props
-
-    const prevQuery = stringifyDates(prevState.query)
-    const currQuery = stringifyDates(query)
-
-    if (!equals(prevQuery, currQuery)) {
-      this.setState({ // eslint-disable-line react/no-did-update-set-state
-        hasChanged: true,
-        query,
-      })
-    }
-  }
-
-  handleToogeMoreFilters () {
-    this.setState(({ collapsed }) => ({
-      collapsed: !collapsed,
-    }))
-  }
-
-  handleFiltersSubmit (filters) {
-    const { onConfirm } = this.props
-
-    this.setState({
-      collapsed: true,
-      hasChanged: false,
-    })
-
+  const handleFiltersSubmit = (filters) => {
+    setCollapsed(true)
     onConfirm(filters)
   }
 
-  handleFiltersChange (query) {
-    const { onChange } = this.props
-
-    this.setState({ query })
-
-    onChange(query)
+  const handleFiltersChange = (NewQuery) => {
+    setFilterQuery(NewQuery)
+    onChange(NewQuery)
   }
 
-  renderChildrenInput (input, index) {
-    const { disabled } = this.props
-
-    return React.cloneElement(input, {
+  const renderChildrenInput = (input, index) => (
+    React.cloneElement(input, {
       className: style.search,
       disabled,
       key: `${input.props.name}-${index}`,
     })
-  }
+  )
 
-  renderToolbar () {
-    const {
-      children,
-      clearFilterDisabled,
-      confirmationDisabled,
-      disabled,
-      onClear,
-      options,
-      t,
-    } = this.props
+  const renderToolbar = () => (
+    <CardActions>
+      {ensureArray(children).map(renderChildrenInput)}
+      {!isNilOrEmpty(options)
+        && (
+          <Button
+            disabled={disabled}
+            relevance="low"
+            fill="outline"
+            iconAlignment="end"
+            icon={collapsed
+              ? <ChevronDown32 width={16} height={16} />
+              : <ChevronUp32 width={16} height={16} />
+            }
+            onClick={handleToogeMoreFilters}
+          >
+            {t('components.filter.more')}
+          </Button>
+        )
+      }
+      <Button
+        relevance="normal"
+        onClick={onClear}
+        fill="outline"
+        disabled={isNilOrEmpty(query.search) && isNilOrEmpty(selectedFilters)}
+      >
+        {t('components.filter.reset')}
+      </Button>
 
-    const {
-      collapsed,
-      hasChanged,
-    } = this.state
+      <Button
+        relevance="normal"
+        disabled={confirmationDisabled || disabled}
+        type="submit"
+        fill="gradient"
+      >
+        {t('components.filter.apply')}
+      </Button>
+    </CardActions>
+  )
 
-    return (
-      <CardActions>
-        {ensureArray(children).map(this.renderChildrenInput)}
-        {!isNilOrEmpty(options)
-          && (
-            <Button
-              disabled={disabled}
-              relevance="low"
-              fill="outline"
-              iconAlignment="end"
-              icon={collapsed
-                ? <ChevronDown32 width={16} height={16} />
-                : <ChevronUp32 width={16} height={16} />
-              }
-              onClick={this.handleToogeMoreFilters}
-            >
-              {t('components.filter.more')}
-            </Button>
-          )
-        }
-        <Button
-          relevance={
-            hasChanged
-              ? 'normal'
-              : 'low'
-          }
-          onClick={onClear}
-          fill="outline"
-          disabled={clearFilterDisabled || disabled}
-        >
-          {t('components.filter.reset')}
-        </Button>
-
-        <Button
-          relevance={
-            hasChanged
-              ? 'normal'
-              : 'low'
-          }
-          disabled={confirmationDisabled || !hasChanged || disabled}
-          type="submit"
-          fill="gradient"
-        >
-          {t('components.filter.apply')}
-        </Button>
-      </CardActions>
-    )
-  }
-
-  renderOptions () {
-    const {
-      collapsed,
-      query,
-    } = this.state
-
-    const {
-      disabled,
-      options,
-      query: {
-        filters,
-      },
-    } = this.props
-
+  const renderOptions = () => {
     if (isNilOrEmpty(options) || collapsed) {
       return null
     }
-
-    const selectedFilters = getFilters(filters, query.filters)
 
     return (
       <CardContent>
@@ -259,28 +208,20 @@ class Filters extends Component {
     )
   }
 
-  renderTags () {
+  const renderTags = () => {
     const {
-      collapsed,
-      query: {
-        filters: localFilters,
-      },
-    } = this.state
+      filters: localFilters,
+    } = filterQuery
 
     const {
-      options,
-      query: {
-        filters: urlFilters,
-      },
-      t,
-    } = this.props
+      filters: urlFilters,
+    } = query
 
     const filters = mergeDeepLeft(urlFilters, localFilters)
 
-    if (!collapsed || isNilOrEmpty(filters)) {
+    if (!collapsed || isNilOrEmpty(selectedFilters)) {
       return null
     }
-
     const tags = compileTags(options, filters)
 
     return (
@@ -300,28 +241,23 @@ class Filters extends Component {
     )
   }
 
-  render () {
-    const { query } = this.state
-
-    return (
-      <Card className={style.allowOverflow}>
-        <Form
-          data={query}
-          onChange={this.handleFiltersChange}
-          onSubmit={this.handleFiltersSubmit}
-        >
-          {this.renderToolbar()}
-          {this.renderOptions()}
-          {this.renderTags()}
-        </Form>
-      </Card>
-    )
-  }
+  return (
+    <Card className={style.allowOverflow}>
+      <Form
+        data={filterQuery}
+        onChange={handleFiltersChange}
+        onSubmit={handleFiltersSubmit}
+      >
+        {renderToolbar()}
+        {renderOptions()}
+        {renderTags()}
+      </Form>
+    </Card>
+  )
 }
 
 Filters.propTypes = {
   children: PropTypes.node.isRequired,
-  clearFilterDisabled: PropTypes.bool,
   confirmationDisabled: PropTypes.bool,
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
@@ -340,8 +276,7 @@ Filters.propTypes = {
 }
 
 Filters.defaultProps = {
-  clearFilterDisabled: false,
-  confirmationDisabled: false,
+  confirmationDisabled: true,
   disabled: false,
   onChange: () => null,
   options: [],
