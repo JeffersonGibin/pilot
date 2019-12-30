@@ -193,7 +193,7 @@ class TransactionsSearch extends React.Component {
 
     this.state = {
       collapsed: true,
-      confirmationDisabled: false,
+      confirmationDisabled: true,
       expandedRows: [],
       exporting: false,
       pendingReviewsCount: 0,
@@ -397,6 +397,9 @@ class TransactionsSearch extends React.Component {
       search,
       sort: sort || stateQuery.sort,
     }
+    this.setState({
+      confirmationDisabled: true,
+    })
 
     this.updateQuery(query)
   }
