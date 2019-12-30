@@ -25,13 +25,13 @@ import NotFoundMessage from './NotFoundMessage'
 import TableData from '../../components/Operations/TableData'
 
 const RecipientTable = ({
-  clearFilterDisabled,
   confirmationDisabled,
   expandedRows,
   filterOptions,
   loading,
   onDetailsClick,
   onExpandRow,
+  onFilterChange,
   onFilterClear,
   onFilterConfirm,
   onPageChange,
@@ -47,28 +47,20 @@ const RecipientTable = ({
   t,
 }) => {
   const [newQuery, setQuery] = useState(query)
-  const [
-    isConfirmationDisabled,
-    setConfirmationDisabled,
-  ] = useState(confirmationDisabled)
+
+  const handleFilterChange = (value) => {
+    setQuery(value)
+    onFilterChange()
+  }
 
   const columns = tableColumns({
     onDetailsClick,
     t,
   })
 
-  const handleFilterChange = (value) => {
-    setQuery(value)
-    setConfirmationDisabled(false)
-  }
-
   useEffect(() => {
     setQuery(query)
   }, [query])
-
-  useEffect(() => {
-    setConfirmationDisabled(confirmationDisabled)
-  }, [confirmationDisabled])
 
   return (
     <Grid>
@@ -80,8 +72,7 @@ const RecipientTable = ({
           tv={12}
         >
           <Filter
-            clearFilterDisabled={clearFilterDisabled}
-            confirmationDisabled={isConfirmationDisabled}
+            confirmationDisabled={confirmationDisabled}
             disabled={loading}
             onConfirm={onFilterConfirm}
             onChange={handleFilterChange}
@@ -176,7 +167,6 @@ const RecipientTable = ({
 }
 
 RecipientTable.propTypes = {
-  clearFilterDisabled: PropTypes.bool,
   confirmationDisabled: PropTypes.bool,
   expandedRows: PropTypes.arrayOf(PropTypes.number).isRequired,
   filterOptions: PropTypes.arrayOf(PropTypes.shape({
@@ -190,6 +180,7 @@ RecipientTable.propTypes = {
   loading: PropTypes.bool.isRequired,
   onDetailsClick: PropTypes.func.isRequired,
   onExpandRow: PropTypes.func.isRequired,
+  onFilterChange: PropTypes.func.isRequired,
   onFilterClear: PropTypes.func.isRequired,
   onFilterConfirm: PropTypes.func.isRequired,
   onPageChange: PropTypes.func.isRequired,
@@ -226,8 +217,7 @@ RecipientTable.propTypes = {
 }
 
 RecipientTable.defaultProps = {
-  clearFilterDisabled: false,
-  confirmationDisabled: false,
+  confirmationDisabled: true,
   filterOptions: [],
   query: {
     properties: {},

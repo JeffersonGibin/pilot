@@ -125,8 +125,7 @@ class RecipientsSearch extends React.Component {
     super(props)
 
     this.state = {
-      clearFilterDisabled: false,
-      confirmationDisabled: false,
+      confirmationDisabled: true,
       expandedRows: [],
       next: null,
       result: {
@@ -142,6 +141,7 @@ class RecipientsSearch extends React.Component {
     }
 
     this.handleExpandRow = this.handleExpandRow.bind(this)
+    this.handleFilterChange = this.handleFilterChange.bind(this)
     this.handleFilterClear = this.handleFilterClear.bind(this)
     this.handleFilterConfirm = this.handleFilterConfirm.bind(this)
     this.handlePageChange = this.handlePageChange.bind(this)
@@ -271,7 +271,6 @@ class RecipientsSearch extends React.Component {
 
   handleFilterClear () {
     this.setState({
-      clearFilterDisabled: true,
       confirmationDisabled: true,
     })
 
@@ -291,11 +290,16 @@ class RecipientsSearch extends React.Component {
     }
 
     this.setState({
-      clearFilterDisabled: false,
       confirmationDisabled: true,
     })
 
     this.updateQuery(newQuery)
+  }
+
+  handleFilterChange () {
+    this.setState({
+      confirmationDisabled: false,
+    })
   }
 
   handlePageChange (page) {
@@ -304,10 +308,6 @@ class RecipientsSearch extends React.Component {
       ...query,
       offset: page,
     }
-
-    this.setState({
-      clearFilterDisabled: false,
-    })
 
     this.updateQuery(newQuery)
   }
@@ -336,7 +336,6 @@ class RecipientsSearch extends React.Component {
 
   render () {
     const {
-      clearFilterDisabled,
       confirmationDisabled,
       expandedRows,
       result: {
@@ -367,7 +366,6 @@ class RecipientsSearch extends React.Component {
 
     return (
       <RecipientTable
-        clearFilterDisabled={clearFilterDisabled}
         confirmationDisabled={confirmationDisabled}
         expandedRows={expandedRows}
         loading={loading}
@@ -375,6 +373,7 @@ class RecipientsSearch extends React.Component {
         onChangeViewMode={this.handleViewModeChange}
         onDetailsClick={this.handleRowDetailsClick}
         onExpandRow={this.handleExpandRow}
+        onFilterChange={this.handleFilterChange}
         onFilterConfirm={this.handleFilterConfirm}
         onFilterClear={this.handleFilterClear}
         onPageChange={this.handlePageChange}
